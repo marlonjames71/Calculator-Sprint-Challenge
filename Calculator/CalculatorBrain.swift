@@ -22,11 +22,9 @@ class CalculatorBrain {
     
     func addOperandDigit(_ digit: String) -> String {
 		if operatorType != nil {
-			operand2String.append(contentsOf: digit)
-			return operand2String
+			return onlyAllowOneDecimal(digit, &operand2String)
 		} else {
-			operand1String.append(contentsOf: digit)
-			return operand1String
+			return onlyAllowOneDecimal(digit, &operand1String)
 		}
     }
     
@@ -64,6 +62,15 @@ class CalculatorBrain {
 			}
         return nil
     }
+	
+	private func onlyAllowOneDecimal(_ userInput: String, _ operandStr: inout String) -> String {
+		if userInput == "." && operandStr.contains(".") {
+			operandStr.append(contentsOf: "")
+		} else {
+			operandStr.append(contentsOf: userInput)
+		}
+		return operandStr
+	}
 }
 
 extension Double {

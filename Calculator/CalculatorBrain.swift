@@ -21,48 +21,42 @@ class CalculatorBrain {
     var operatorType: OperatorType?
     
     func addOperandDigit(_ digit: String) -> String {
-		if operatorType == nil {
-			operand1String.append(contentsOf: digit)
-			return operand1String
-		} else {
+		if operatorType != nil {
 			operand2String.append(contentsOf: digit)
 			return operand2String
+		} else {
+			operand1String.append(contentsOf: digit)
+			return operand1String
 		}
     }
     
     func setOperator(_ operatorString: String) {
-		if operatorString == OperatorType.addition.rawValue {
-			operatorType = .addition
-		} else if operatorString == OperatorType.subtraction.rawValue {
-			operatorType = .subtraction
-		} else if operatorString == OperatorType.multiplication.rawValue {
-			operatorType = .multiplication
-		} else {
-			operatorType = .division
+		if let opType = OperatorType(rawValue: operatorString) {
+			operatorType = opType
 		}
     }
     
     func calculateIfPossible() -> String? {
-		var output: Double
-		guard let opType = operatorType else { return nil }
-		if operand1String != "" && operand2String != "" {
-			guard let value1 = Double(operand1String) else { return nil }
-			guard let value2 = Double(operand2String) else { return nil }
-			switch opType {
-			case .addition:
-				output = value1 + value2
-				return String(output)
-			case .subtraction:
-				output = value1 - value2
-				return String(output)
-			case .multiplication:
-				output = value1 * value2
-				return String(output)
-			case .division:
-				output = value1 / value2
-				return String(output)
+		if !operand1String.isEmpty,
+			!operand2String.isEmpty,
+			let opType = operatorType,
+			let value1 = Double(operand1String),
+			let value2 = Double(operand2String) {
+				switch opType {
+				case .addition:
+					return String(value1 + value2)
+				case .subtraction:
+					return String(value1 - value2)
+				case .multiplication:
+					return String(value1 * value2)
+				case .division:
+					if value2 != 0 {
+						return String(value1 / value2)
+					} else {
+						return "Error"
+					}
+				}
 			}
-		}
-        return "Error go away"
+        return nil
     }
 }

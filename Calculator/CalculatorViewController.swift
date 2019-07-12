@@ -35,7 +35,6 @@ class CalculatorViewController: UIViewController {
 			outputLabel.text = solution
 			clearTransaction()
 		}
-		
     }
     
     @IBAction func clearTapped(_ sender: UIButton) {

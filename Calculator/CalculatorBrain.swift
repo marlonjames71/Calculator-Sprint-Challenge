@@ -37,6 +37,7 @@ class CalculatorBrain {
     }
     
     func calculateIfPossible() -> String? {
+		let output: Double
 		if !operand1String.isEmpty,
 			!operand2String.isEmpty,
 			let opType = operatorType,
@@ -44,14 +45,18 @@ class CalculatorBrain {
 			let value2 = Double(operand2String) {
 				switch opType {
 				case .addition:
-					return String(value1 + value2)
+					output = value1 + value2
+					return output.removeZerosFromEnd()
 				case .subtraction:
-					return String(value1 - value2)
+					output = value1 - value2
+					return output.removeZerosFromEnd()
 				case .multiplication:
-					return String(value1 * value2)
+					output = value1 * value2
+					return output.removeZerosFromEnd()
 				case .division:
 					if value2 != 0 {
-						return String(value1 / value2)
+						output = value1 / value2
+						return output.removeZerosFromEnd()
 					} else {
 						return "Error"
 					}
@@ -59,4 +64,14 @@ class CalculatorBrain {
 			}
         return nil
     }
+}
+
+extension Double {
+	func removeZerosFromEnd() -> String {
+		let formatter = NumberFormatter()
+		let number = NSNumber(value: self)
+		formatter.minimumFractionDigits = 0
+		formatter.maximumFractionDigits = 16
+		return String(formatter.string(from: number) ?? "")
+	}
 }

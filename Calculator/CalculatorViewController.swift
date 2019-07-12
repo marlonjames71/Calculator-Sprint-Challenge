@@ -11,9 +11,11 @@ import UIKit
 class CalculatorViewController: UIViewController {
     
     @IBOutlet weak var outputLabel: UILabel!
+	var brain: CalculatorBrain?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		brain = CalculatorBrain()
     }
     
     // MARK: - Action Handlers
